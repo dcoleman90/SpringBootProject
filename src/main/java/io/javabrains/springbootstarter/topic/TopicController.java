@@ -1,21 +1,42 @@
 package io.javabrains.springbootstarter.topic;
 
-import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TopicController {
-	
+
+	@Autowired
+	private TopicService topicService;
+
 	@RequestMapping("/topics")
 	public List<Topic> getAllTopics() {
-		return Arrays.asList(
-				new Topic("Spring", "Spring Framework", "Spring Framework Description"),
-				new Topic("A New Hope", "Episode 4", " It is a period of Civil war"),
-				new Topic("Empire Strikes Back", "Episode 5", "It is a dark time for the Rebellion"),
-				new Topic("Return of the Jedi","Episode 6","Luke Skywalker has returned to his home planet of Tatooine"));
+		return this.topicService.getAllTopics();
 	}
-
+	
+	@RequestMapping("/topics/{id}")
+	public Topic getTopic(@PathVariable String id) {
+		return this.topicService.getTopic(id);
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value = "/topics")
+	public void addTopic(@RequestBody Topic addedTopic) {
+		this.topicService.addTopic(addedTopic);
+	}
+	
+	@RequestMapping(method=RequestMethod.PUT, value = "/topics/{id}")
+	public void updateTopic(@RequestBody Topic addedTopic, @PathVariable String name) {
+		this.topicService.updateTopic(addedTopic, name);
+	}
+	
+	@RequestMapping(method=RequestMethod.DELETE, value = "/topics/{id}")
+	public void deleteTopic(@PathVariable String name) {
+		this.topicService.deleteTopic(name);
+	}
 }

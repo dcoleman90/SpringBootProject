@@ -10,6 +10,7 @@ public class CourseAPIApp {
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CourseAPIApp.class, args);
+
 		
 	}
 }
